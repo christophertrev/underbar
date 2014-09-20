@@ -168,9 +168,7 @@ var _ = {};
   _.reduce = function(collection, iterator, accumulator) {
 
 
-    console.log( (accumulator === undefined))
     var result = (accumulator !== undefined) ? accumulator : _.first(collection);
-    console.log(_.first(collection))
     var keys = Object.keys(collection);
     for (var i = 0; i < keys.length; i++) {
       result = iterator(result,collection[keys[i]]);
@@ -194,6 +192,20 @@ var _ = {};
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+
+    if (collection.length === 0 ){
+      return true // if empty collection will return true
+    }
+
+    var lastResult;
+    var result = _.reduce(collection, function(lastResult, item){
+      if (!lastResult){
+        return false;
+      }
+      return (iterator ? iterator(item) : item )
+    }, true);
+
+    return (result ? true : false) 
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
