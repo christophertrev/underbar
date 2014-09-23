@@ -258,6 +258,20 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    if ( arguments.length < 1){
+      return arguments[0]
+    }
+    var target = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+      var keys = Object.keys(arguments[i]);
+      for (var j = 0; j < keys.length; j++) {
+        if ((target[keys[j]])=== undefined) {
+          target[keys[j]] = arguments[i][keys[j]];
+        }; 
+      };
+    };
+    return target
   };
 
 
@@ -299,6 +313,13 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var hist = {}; 
+    return function(prim){
+      if (hist[prim] === undefined){
+        return hist[prim] = func(prim)
+      }
+      return hist[prim]
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
